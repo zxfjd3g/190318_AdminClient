@@ -16,12 +16,12 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/" component={Admin} />
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

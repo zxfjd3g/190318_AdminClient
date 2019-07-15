@@ -18,7 +18,7 @@ axios.interceptors.request.use(function (config) {
     config.data = qs.stringify(data) // username=admin&password=admin
   }
 
-  return config;
+  return config
 })
 
 

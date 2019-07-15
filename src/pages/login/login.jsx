@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd'
 
+import memoryUtils from '../../utils/memoryUtils'
+import storageUtils from '../../utils/storageUtils'
 import { reqLogin } from '../../api'
 import logo from './images/logo.png'
 import './login.less'
@@ -29,6 +32,13 @@ class Login extends Component {
         const result = await reqLogin(username, password)
         // 登陆成功
         if (result.status===0) {
+          // 将user信息保存到local
+          const user = result.data
+          // localStorage.setItem('user_key', JSON.stringify(user))
+          storageUtils.saveUser(user)
+          // 保存到内存中
+          memoryUtils.user = user
+
           // 跳转到管理界面
           this.props.history.replace('/')
           message.success('登陆成功!')
@@ -66,6 +76,13 @@ class Login extends Component {
   }
 
   render() {
+
+    // 读取保存的user, 如果存在, 直接跳转到管理界面
+    // const user = JSON.parse(localStorage.getItem('user_key') || '{}')
+    const user = memoryUtils.user
+    if (user._id) {
+      return <Redirect to="/" /> // 自动跳转到指定的路由路径
+    }
 
     const { getFieldDecorator } = this.props.form
 

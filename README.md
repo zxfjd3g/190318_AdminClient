@@ -107,7 +107,7 @@
  ## 2. 高阶函数与高阶组件
     1). 高阶函数
         定义: 接收的参数是函数或者返回值是函数
-        常见的: 数组遍历相关的方法 / 定时器 / Promise / 高阶组件
+        常见的: 数组遍历相关的方法 / 定时器 / Promise / 高阶组件 / fn.bind(obj)()
         作用: 实现一个更加强大, 动态的功能
 
     2). 高阶组件: 
@@ -130,7 +130,7 @@
     1). ajax请求函数模块: api/ajax.js
         封装axios: interceptor + promise
         a. 解决post请求参数后台不能读取问题: axios默认以json形参传递请求体参数, 在请求拦截器中转换成urlencode形式
-        b. 请求成功的结果不再是response, 而是data: 使用响应拦截器成功的回调返回response.data
+        b. 请求成功的结果不再是response, 而是reponse.data: 使用响应拦截器成功的回调返回response.data
         c. 内部统一处理请求异常: 在响应拦截失败的回调中返回pending状态的promise, 中断promise链
 
     2). 接口请求函数模块: api/index.js
@@ -163,3 +163,21 @@
             在返回promise的表达式左侧写await: 不想要promise, 想要promise异步执行的成功的value数据
         c. 哪里写async?
             await所在函数(最近的)定义的左侧写async
+
+## 5. 实现登陆(包含自动登陆)
+    login.jsx
+        1). 调用登陆的接口请求
+        2). 如果失败, 显示错误提示信息
+        3). 如果成功了:
+            保存user到local/内存中
+            跳转到admin
+        4). 如果内存中的user有值, 自动跳转到admin
+    admin.jsx
+        判断如果内存中没有user(_id没有值), 自动跳转到login
+    storageUtils.js
+        包含使用localStorage来保存user相关操作的工具模块
+        使用第三库store
+            简化编码
+            兼容不同的浏览器
+    memoryUtils.js
+        用来在内存中保存数据(user)的工具类, user的初始值从local中读取

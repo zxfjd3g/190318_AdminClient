@@ -5,7 +5,7 @@ import { Form, Icon, Input, Button, message } from 'antd'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import { reqLogin } from '../../api'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
 import './login.less'
 
 const Item = Form.Item

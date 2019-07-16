@@ -17,7 +17,8 @@ class App extends Component {
   render() {
     return (
       <HashRouter>
-        <Switch>
+        <Switch> 
+          {/* /login */}
           <Route path="/login" component={Login} />
           <Route path="/" component={Admin} />
         </Switch>

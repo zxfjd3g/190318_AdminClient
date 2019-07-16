@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
 
+import LinkButton from '../../components/link-button'
 import {reqWeather} from '../../api'
 import { formateDate } from '../../utils/dateUtils'
 import menuList from '../../config/menuConfig'
@@ -108,7 +109,9 @@ class Header extends Component {
       <div className="header">
         <div className="header-top">
           欢迎, {user.username} &nbsp;&nbsp;
-          <a href="javascript:" onClick={this.logout}>退出</a>
+
+          {/* 组件的标签体作为标签的children属性传入 */}
+          <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
         <div className="header-bottom">
           <div className="header-bottom-left">{title}</div>

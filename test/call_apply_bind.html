@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+
+    /* 
+    1. 区别call()/apply()/bind()
+    2. 自定义实现bind()
+    */
+
+    Function.prototype.bind = function (obj) {
+      const args = []
+      // arguments: 调用bind函数时传递的实参伪数组, 需要将从第2个开始, 都保存到args中
+      if (arguments.length>1) {
+        for (let i = 1; i < arguments.length; i++) {
+          args.push(arguments[i])
+        }
+      }
+      const self = this  // fn
+      return function () { // 返回的新函数, 内部执行fn, 而且指定this为obj
+        // arguments: 调用新函数时传递的实参伪数组, 所有都放到args中
+        if (arguments.length>0) {
+          for (let i = 0; i < arguments.length; i++) {
+            args.push(arguments[i])
+          }
+        }
+        // 调用原来函数, 并指定this为obj, 指定实参为args
+        self.apply(obj, args)
+      }
+    }
+
+    function fn(a, b) {
+      console.log(a, b, this.m)
+    }
+
+    const obj = {m: 1}
+
+    /* 
+    函数对象: 将一个函数作为对象使用
+    实例对象: new函数调用产生的对象, 简称为对象
+    */
+    fn.call(obj, 2, 3, 4) // 2 3 1 
+    fn.apply(obj, [2, 3, 4]) // 2, 3 1
+    fn.bind(obj)(2, 3) // 2, 3 1
+    fn.bind(obj, 5)(2, 3) // 5 2 1
+    fn.bind(obj, 5, 6)(2, 3) // 5 6 1
+    fn.bind(obj, 5, 6, 7)(2, 3) // 5 6 1
+
+    
+  </script>
+</body>
+</html>

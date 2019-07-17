@@ -15,7 +15,8 @@ const Item = Form.Item
 class AddUpdateForm extends Component {
 
   static propTypes = {
-    setForm: PropTypes.func.isRequired
+    setForm: PropTypes.func.isRequired,
+    categoryName: PropTypes.string,
   }
 
   componentWillMount () {
@@ -24,12 +25,13 @@ class AddUpdateForm extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form
+    const { categoryName } = this.props
     return (
       <Form>
         <Item>
           {
             getFieldDecorator('categoryName', {
-              initialValue: '',
+              initialValue: categoryName || '',
               rules: [
                 {required: true, message: '分类名称必须输入'}
               ]

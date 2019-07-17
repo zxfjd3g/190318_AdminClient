@@ -31,3 +31,14 @@ export const reqWeather = (city) => {
   })
   
 }
+
+// const persons/personList/personArr = [{}, {}]
+
+// 获取分类列表
+// export const reqCategorys = () => ajax.get(BASE + '/manage/category/list')
+/* export const reqCategorys = () => ajax({
+  // method: 'GET',
+  url: BASE + '/manage/category/list'
+}) */
+export const reqCategorys = () => ajax(BASE + '/manage/category/list')
+

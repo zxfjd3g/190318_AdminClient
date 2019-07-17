@@ -42,3 +42,13 @@ export const reqWeather = (city) => {
 }) */
 export const reqCategorys = () => ajax(BASE + '/manage/category/list')
 
+// 添加分类
+export const reqAddCategory = (categoryName) => ajax.post(BASE + '/manage/category/add', {
+  categoryName
+})
+
+// 修改分类
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax.post(BASE + '/manage/category/update', {
+  categoryId,
+  categoryName
+})

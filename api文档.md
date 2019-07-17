@@ -244,7 +244,7 @@
     |categoryName  |Y       |string   |名称
 
 ### 返回示例：
-    添加一级分类:
+    添加分类:
         {
           "status": 0,
           "data": {

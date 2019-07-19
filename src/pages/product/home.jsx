@@ -35,6 +35,7 @@ export default class ProductHome extends Component {
       },
       {
         title: '价格',
+        width: 100,
         dataIndex: 'price',
         render: (price) => '¥' + price
       },
@@ -59,6 +60,7 @@ export default class ProductHome extends Component {
       },
       {
         title: '操作',
+        width: 100,
         render: (product) => (
           <span>
             <LinkButton>详情</LinkButton>

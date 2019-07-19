@@ -9,7 +9,7 @@ export default class Home extends Component {
   render() {
     return (
       <div className="home">
-        Home
+        欢迎使用硅谷后台管理系统
       </div>
     )
   }

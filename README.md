@@ -324,4 +324,4 @@
     2). reduce()
     3). filter()
     4). find()/findIndex()
-    6). every()/some()
+    5). every()/some()

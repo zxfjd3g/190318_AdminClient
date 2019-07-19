@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <button id="throttle">测试函数节流</button>
+  <button id="debounce">测试函数防抖</button>
+  
+  <!-- 
+    1. 事件频繁触发可能造成的问题?
+        1). 一些浏览器事件:window.onresize、window.mousemove等，触发的频率非常高，会造成浏览器性能问题
+        2). 如果向后台发送请求，频繁触发，对服务器造成不必要的压力
+    
+    2. 如何限制事件处理函数频繁调用
+        1). 函数节流
+        2). 函数防抖
+
+    3. 函数节流(throttle)
+        1). 理解: 
+            在函数需要频繁触发时: 函数执行一次后，只有大于设定的执行周期后才会执行第二次
+            适合多次事件按时间做平均分配触发
+        2). 场景：
+            窗口调整（resize）
+            页面滚动（scroll）
+            DOM 元素的拖拽功能实现（mousemove）
+            抢购疯狂点击（mousedown）
+            
+
+    4. 函数防抖(debounce)
+        1). 理解:
+            在函数需要频繁触发时: 在规定时间内，只让最后一次生效，前面的不生效。
+            适合多次事件一次响应的情况
+        2). 场景：
+            实时搜索联想（keyup）
+            文本输入的验证（连续输入文字后发送 AJAX 请求进行验证，验证一次就好）
+            判断scroll是否滑到底部，滚动事件+函数防抖
+   -->
+
+  <script>
+    /* 处理点击事件的回调函数 */
+    function handleClick() {
+      console.log('处理点击事件')
+    }
+
+    /* 实现函数节流的函数 */
+    function throttle(fn, delay) {
+      let last = 0
+      return function () {
+        // console.log('throttle 事件...')
+        const now = Date.now()
+        if (now - last > delay) {
+          fn.apply(this, arguments)
+          last = now
+        }
+      }
+    }
+
+    document.getElementById('throttle').onclick = throttle(handleClick, 1000)
+
+    /* 实现函数防抖的函数 */
+    function debounce(fn, delay) {
+      return function () {
+        console.log('debounce 事件...')
+        const self = this
+        const args = arguments
+        // if (fn.hasOwnProperty('timeoutId')) {
+        if (fn.timeoutId) {
+          clearTimeout(fn.timeoutId)
+        }
+        fn.timeoutId = setTimeout(() => {
+          fn.apply(self, args)
+          delete fn.timeoutId
+        }, delay)
+      }
+    }
+    document.getElementById('debounce').onclick = debounce(handleClick, 1000)
+  </script>
+
+</body>
+</html>

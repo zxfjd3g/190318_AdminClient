@@ -60,3 +60,32 @@ export const reqProducts = (pageNum, pageSize) => ajax(BASE + '/manage/product/l
     pageSize
   }
 })
+
+/* 根据Name/desc搜索产品分页列表 */
+export const reqSearchProducts = ({
+    pageNum,
+    pageSize,
+    searchName,
+    searchType // 它的值是'productName'或者'productDesc'
+  }) => ajax(BASE + '/manage/product/search', {
+  // method: 'GET',
+  params: {
+    pageNum,
+    pageSize,
+    [searchType]: searchName,
+  }
+})
+
+/* 对商品进行上架/下架处理 */
+export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
+  method: 'POST',
+  data: {
+    productId,
+    status
+  }
+})
+
+/* ajax.post(BASE + '/manage/product/updateStatus', {
+  productId,
+  status
+}) */

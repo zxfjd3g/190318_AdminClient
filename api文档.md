@@ -11,7 +11,7 @@
 	8). 更新品类名称
 	9). 根据分类ID获取分类
 	10). 获取商品分页列表
-	11). 根据ID/Name搜索产品分页列表
+	11). 根据name/desc搜索产品分页列表
 	12). 添加商品
 	13). 更新商品
 	14). 对商品进行上架/下架处理
@@ -388,7 +388,7 @@
         }
     }
 
-## 11. 根据ID/Name搜索产品分页列表
+## 11. 根据Name/desc搜索产品分页列表
 ### 请求URL：
     http://localhost:5000/manage/product/search?pageNum=1&pageSize=5&productName=T
 

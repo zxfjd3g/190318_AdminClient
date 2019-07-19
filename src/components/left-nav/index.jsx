@@ -121,7 +121,10 @@ class LeftNav extends Component {
     console.log('left-nav render()')
     
     // 得到当前请求路径, 作为选中菜单项的key
-    const selectKey = this.props.location.pathname
+    let selectKey = this.props.location.pathname // /product/xxx
+    if (selectKey.indexOf('/product')===0) {
+      selectKey = '/product'
+    }
     
     return (
       <div className="left-nav">

@@ -90,7 +90,15 @@ export default class ProductHome extends Component {
             >
               详情
             </LinkButton>
-            <LinkButton>修改</LinkButton>
+            <LinkButton
+              onClick={() => {
+                // 在内存中保存product
+                memoryUtils.product = product
+                this.props.history.push('/product/addupdate')
+              }}
+            >修改
+            
+            </LinkButton>
           </span>
         )
       },
@@ -156,7 +164,10 @@ export default class ProductHome extends Component {
       </span>
     )
     const extra = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => {
+        memoryUtils.product = {}
+        this.props.history.push('/product/addupdate')
+      }}>
         <Icon type="plus" />
         添加商品
       </Button>

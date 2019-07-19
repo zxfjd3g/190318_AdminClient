@@ -43,38 +43,44 @@
 
   <script>
     /* 处理点击事件的回调函数 */
-    function handleClick() {
+    function handleClick() { // 处理事件的回调
       console.log('处理点击事件')
     }
 
     /* 实现函数节流的函数 */
-    function throttle(fn, delay) {
-      let last = 0
-      return function () {
-        // console.log('throttle 事件...')
-        const now = Date.now()
-        if (now - last > delay) {
-          fn.apply(this, arguments)
-          last = now
+    function throttle(callback, delay) {
+      let start = 0 // 必须保存第一次点击立即调用
+      return function () { // 它的this是谁就得让callback()中的this是谁, 它接收的所有实参都直接交给callback()
+        console.log('throttle 事件')
+        const current = Date.now()
+        if (current - start > delay) { // 从第2次点击开始, 需要间隔时间超过delay
+          callback.apply(this, arguments)
+          start = current
         }
+        
       }
-    }
+    }    
 
+    // document.getElementById('throttle').onclick = handleClick
     document.getElementById('throttle').onclick = throttle(handleClick, 1000)
 
     /* 实现函数防抖的函数 */
-    function debounce(fn, delay) {
+    function debounce(callback, delay) {
       return function () {
         console.log('debounce 事件...')
-        const self = this
+        // 保存this和arguments
+        const that = this
         const args = arguments
-        // if (fn.hasOwnProperty('timeoutId')) {
-        if (fn.timeoutId) {
-          clearTimeout(fn.timeoutId)
+        
+        // 清除待执行的定时器任务
+        if (callback.timeoutId) {
+          clearTimeout(callback.timeoutId)
         }
-        fn.timeoutId = setTimeout(() => {
-          fn.apply(self, args)
-          delete fn.timeoutId
+        // 每隔delay的时间, 启动一个新的延迟定时器, 去准备调用callback
+        callback.timeoutId = setTimeout(function () {
+          callback.apply(that, args)
+          // 如果定时器回调执行了, 删除标记
+          delete callback.timeoutId
         }, delay)
       }
     }

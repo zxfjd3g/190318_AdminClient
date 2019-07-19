@@ -4,6 +4,7 @@ import {
   Route,
   Redirect
 } from 'react-router-dom'
+import './product.less'
 
 import ProductHome from './home'
 import ProductAddUpdate from './add-update'

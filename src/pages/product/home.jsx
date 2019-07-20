@@ -8,6 +8,7 @@ import {
   Table,
   message
 } from 'antd'
+import throttle from 'lodash.throttle'
 
 import { reqProducts, reqSearchProducts, reqUpdateStatus } from '../../api'
 import LinkButton from '../../components/link-button'
@@ -28,17 +29,17 @@ export default class ProductHome extends Component {
     searchName: '', // 搜索的关键字
   }
 
-  updateStatus = async (productId, status) => {
+  updateStatus = throttle(async (productId, status) => {
     // 计算更新后的值
-    status = status===1 ? 2 : 1
+    status = status === 1 ? 2 : 1
     // 请求更新
     const result = await reqUpdateStatus(productId, status)
-    if (result.status===0) {
+    if (result.status === 0) {
       message.success('更新商品状态成功!')
       // 获取当前页显示
       this.getProducts(this.pageNum)
     }
-  }
+  }, 2000)
 
   initColumns = () => {
     this.columns = [
@@ -114,7 +115,7 @@ export default class ProductHome extends Component {
     const { searchName, searchType } = this.state
     let result
     // 发请求获取数据
-    if (!searchName) {
+    if (!this.isSearch) {
       result = await reqProducts(pageNum, PAGE_SIZE)
     } else {
       result = await reqSearchProducts({ pageNum, pageSize: PAGE_SIZE, searchName, searchType })
@@ -160,7 +161,10 @@ export default class ProductHome extends Component {
           value={searchName}
           onChange={event => this.setState({searchName: event.target.value})}
         />
-        <Button type="primary" onClick={() => this.getProducts(1) }>搜索</Button>
+        <Button type="primary" onClick={() => {
+          this.isSearch = true  // 保存搜索的标记
+          this.getProducts(1)
+        } }>搜索</Button>
       </span>
     )
     const extra = (

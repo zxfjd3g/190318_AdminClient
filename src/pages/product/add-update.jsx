@@ -1,18 +1,19 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
 import {
   Card,
   Icon,
   Form,
   Input,
   Select,
-  Button
+  Button,
+  message
 } from 'antd'
 
-import {reqCategorys} from '../../api'
+import { reqCategorys, reqAddUpdateProduct } from '../../api'
 import PicturesWall from './pictures-wall'
 import LinkButton from '../../components/link-button'
-import memoryUtils from '../../utils/memoryUtils';
+import memoryUtils from '../../utils/memoryUtils'
+import RichTextEditor from './rich-text-editor'
 
 const Item = Form.Item
 const Option = Select.Option
@@ -24,6 +25,13 @@ class ProductAddUpdate extends Component {
 
   state = {
     categorys: []
+  }
+
+  constructor(props) {
+    super(props);
+    // 创建ref容器, 并保存到组件对象
+    this.pwRef = React.createRef()
+    this.editorRef = React.createRef()
   }
 
   getCategorys = async () => {
@@ -59,6 +67,28 @@ class ProductAddUpdate extends Component {
       if (!err) {
         const {name, desc, price, categoryId} = values
         console.log('发送请求', name, desc, price, categoryId)
+
+        // 收集上传的图片文件名的数组
+        const imgs = this.pwRef.current.getImgs()
+        console.log('imgs', imgs)
+        // 输入的商品详情的标签字符串
+        const detail = this.editorRef.current.getDetail()
+        console.log('detail', detail)
+
+        // 封装product对象
+        const product = {name, desc, price, categoryId, imgs, detail}
+        if (this.isUpdate) {
+          product._id = this.product._id
+        }
+
+        // 发请求添加或修改
+        const result = await reqAddUpdateProduct(product)
+        if (result.status===0) {
+          message.success(`${this.isUpdate ? '修改' : '添加'}商品成功`)
+          this.props.history.replace('/product')
+        } else {
+          message.error(result.msg)
+        }
       } 
     })
  }
@@ -137,10 +167,11 @@ class ProductAddUpdate extends Component {
             )}
           </Item>
           <Item label="商品图片">
-            <PicturesWall />
+            {/* 将容器交给需要标记的标签对象, 在解析时就会自动将标签对象保存到容器中(属性名为: current, 属性值标签对象) */}
+            <PicturesWall ref={this.pwRef} imgs={product.imgs}/>
           </Item>
-          <Item label="商品详情">
-            <div>商品详情组件</div>
+          <Item label="商品详情" wrapperCol={{ span: 20 }}>
+            <RichTextEditor ref={this.editorRef} detail={product.detail}/>
           </Item>
           <Item>
             <Button type="primary" htmlType="submit">提交</Button>

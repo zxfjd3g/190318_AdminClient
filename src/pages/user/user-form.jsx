@@ -50,18 +50,22 @@ class UserForm extends PureComponent {
           }
         </Item>
 
-        <Item label='密码'>
-          {
-            getFieldDecorator('password', {
-              initialValue: user.password,
-              rules: [
-                { required: true, message: '必须输入密码' }
-              ]
-            })(
-              <Input type='password' placeholder='请输入密码' />
-            )
-          }
-        </Item>
+        {
+          user._id ? null : (
+            <Item label='密码'>
+              {
+                getFieldDecorator('password', {
+                  initialValue: user.password,
+                  rules: [
+                    { required: true, message: '必须输入密码' }
+                  ]
+                })(
+                  <Input type='password' placeholder='请输入密码' />
+                )
+              }
+            </Item>
+          )
+        }
 
         <Item label='手机号'>
           {

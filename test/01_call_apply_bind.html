@@ -17,28 +17,19 @@
 
     /* 自定义call() */
     Function.prototype.call = function (obj) {
-      obj = obj || window
-      obj.tempFn = this
-      if (arguments.length>1) {
-         const args = [...arguments].splice(1)
-         obj.tempFn(...args)
-      } else {
-        obj.tempFn()
-      }
-      delete obj.tempFn
+      const args = [...arguments].filter((item, index) => index>0) // 得到所有需要传递的参数的数组
+      obj.tempFn = this // 将当前函数保存到obj对象(临时)
+      obj.tempFn(...args) // 方法(当前函数)执行, 内部的this是obj
+      delete obj.tempFn // 删除属性
     }
 
     /* 自定义apply() */
-    Function.prototype.apply = function (obj) {
-      obj = obj || window
-      obj.tempFn = this
-      if (arguments[1]) {
-        obj.tempFn(...arguments[1])
-      } else {
-        obj.tempFn()
-      }
-      delete obj.tempFn
+    Function.prototype.apply = function (obj, args) {
+      obj.tempFn = this // 将当前函数保存到obj对象(临时)
+      obj.tempFn(...args) // 方法(当前函数)执行, 内部的this是obj
+      delete obj.tempFn // 删除属性
     }
+    
     
     /* 自定义bind() */
     Function.prototype.bind = function (obj) {

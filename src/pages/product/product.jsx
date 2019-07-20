@@ -20,7 +20,7 @@ export default class Product extends Component {
       <Switch>
         <Route path="/product" exact component={ProductHome}/>
         <Route path="/product/addupdate" component={ProductAddUpdate}/>
-        <Route path="/product/detail" component={ProductDetail}/>
+        <Route path="/product/detail/:id" component={ProductDetail}/>
         <Redirect to="/product" />
       </Switch>
     )

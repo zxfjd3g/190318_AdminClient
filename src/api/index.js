@@ -83,6 +83,13 @@ export const reqSearchProducts = ({
   }
 })
 
+/* 根据商品ID获取商品 */
+export const reqProduct = (productId) => ajax(BASE + '/manage/product/info', {
+  params: { 
+    productId
+  }
+})
+
 /* 对商品进行上架/下架处理 */
 export const reqUpdateStatus = (productId, status) => ajax(BASE + '/manage/product/updateStatus', {
   method: 'POST',

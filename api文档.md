@@ -12,15 +12,16 @@
 	9). 根据分类ID获取分类
 	10). 获取商品分页列表
 	11). 根据name/desc搜索产品分页列表
-	12). 添加商品
-	13). 更新商品
-	14). 对商品进行上架/下架处理
-	15). 上传图片
-	16). 删除图片
-	17). 添加角色
-	18). 获取角色列表
-	19). 更新角色(给角色设置权限)
-	20). 获取天气信息(支持jsonp)
+  12). 根据商品ID获取商品
+	13). 添加商品
+	14). 更新商品
+	15). 对商品进行上架/下架处理
+	16). 上传图片
+	17). 删除图片
+	18). 添加角色
+	19). 获取角色列表
+	20). 更新角色(给角色设置权限)
+	21). 获取天气信息(支持jsonp)
 
 ## 1. 登陆
 
@@ -455,7 +456,36 @@
         }
     }
 
-## 12. 添加商品
+## 12. 根据商品ID获取商品
+### 请求URL：
+    http://localhost:5000/manage/product/info
+
+### 请求方式：
+    GET
+
+### 参数类型:
+
+    |参数		|是否必选 |类型     |说明
+    |productId    |Y       |string   |商品的ID
+
+### 返回示例：
+    {
+      "status": 0,
+      "data": {
+        "status": 1,
+        "imgs": [
+          "image-1559402396338.jpg"
+        ],
+        "_id": "5ca9e05db49ef916541160cd",
+        "name": "联想ThinkPad 翼4809",
+        "desc": "年度重量级新品，X390、T490全新登场 更加轻薄机身设计9",
+        "price": 65999,
+        "categoryId": "5ca9db9fb49ef916541160cc",
+        "detail": "<p><span style=\"color: rgb(228,57,60);background-color: rgb(255,255,255);font-size: 12px;\">想你所需，超你所想！精致外观，轻薄便携带光驱，内置正版office杜绝盗版死机，全国联保两年！</span> 222</p>\n<p><span style=\"color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 16px;\">联想（Lenovo）扬天V110 15.6英寸家用轻薄便携商务办公手提笔记本电脑 定制【E2-9010/4G/128G固态】 2G独显 内置</span></p>\n<p><span style=\"color: rgb(102,102,102);background-color: rgb(255,255,255);font-size: 16px;\">99999</span></p>\n",
+      }
+    }
+
+## 13. 添加商品
 ### 请求URL：
     http://localhost:5000/manage/product/add
 
@@ -489,7 +519,7 @@
         }
     }
 
-## 13. 更新商品
+## 14. 更新商品
 ### 请求URL：
     http://localhost:5000/manage/product/update
 
@@ -511,7 +541,7 @@
       "status": 0
     }
 
-## 14. 对商品进行上架/下架处理
+## 15. 对商品进行上架/下架处理
 ### 请求URL：
     http://localhost:5000/manage/product/updateStatus
 
@@ -529,7 +559,7 @@
       "status": 0
     }
 
-## 15. 上传图片
+## 16. 上传图片
 ### 请求URL：
     http://localhost:5000/manage/img/upload
 
@@ -550,7 +580,7 @@
         }
     }
 
-## 16. 删除图片
+## 17. 删除图片
 ### 请求URL：
     http://localhost:5000/manage/img/delete
 
@@ -567,7 +597,7 @@
       "status": 0
     }
 
-## 17. 添加角色
+## 18. 添加角色
 
 ### 请求URL：
     http://localhost:5000/manage/role/add
@@ -591,7 +621,7 @@
         }
     }
 
-## 18. 获取角色列表
+## 19. 获取角色列表
 ### 请求URL：
     http://localhost:5000/manage/role/list
 
@@ -654,7 +684,7 @@
         ]
     }
 
-## 19. 更新角色(给角色设置权限)
+## 20. 更新角色(给角色设置权限)
 ### 请求URL：
     http://localhost:5000/manage/role/update
 
@@ -689,7 +719,7 @@
         }
     }
 
-## 20. 获取天气信息(支持jsonp)
+## 21. 获取天气信息(支持jsonp)
 ### 请求URL：
     http://api.map.baidu.com/telematics/v3/weather
 

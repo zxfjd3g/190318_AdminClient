@@ -18,11 +18,39 @@
     方法1: 利用forEach()和indexOf()
       说明: 本质是双重遍历, 效率差些
     */
+    Array.prototype.unique = function () {
+      const arr = []
+      this.forEach(item => {
+        // 只有当item没有在arr中, 才保存到arr中
+        if (arr.indexOf(item)===-1) {
+          arr.push(item)
+        }
+      })
+
+      return arr
+    }
+    console.log([2, 3, 2, 7, 6, 7].unique()) // [2, 3, 7, 6]
 
     /*
     方法2: 利用forEach() + 对象容器
     说明: 只需一重遍历, 效率高些
     */
+    Array.prototype.unique2 = function () {
+      const arr = []
+      const obj = {} // 对象容器
+      this.forEach(item => {
+        // 只有当item没有在arr中, 才保存到arr中
+        // if (!obj[item]) {
+        if (!obj.hasOwnProperty(item)) { // 只在对象自身上查找属性
+          // 给容器对象添加属性: 属性名是item的值, 属性值是true
+          obj[item] = true
+          arr.push(item)
+        }
+      })
+
+      return arr
+    }
+    console.log([2, 3, 2, 7, 6, 7].unique2()) // [2, 3, 7, 6]
 
     /*
     方法3: 利用ES6语法
@@ -30,6 +58,15 @@
         2). ... + Set
     说明: 编码简洁
     */
+  Array.prototype.unique3 = function () {
+    return Array.from(new Set(this))
+  }
+  console.log([2, 3, 2, 7, 6, 7].unique3())
+  
+  Array.prototype.unique4 = function () {
+    return [...new Set(this)]
+  }
+  console.log([2, 3, 2, 7, 6, 7].unique4())
     
   </script>
 </body>

@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Form, Icon, Input, Button, message } from 'antd'
+import {connect} from 'react-redux'
 
+import { login } from '../../redux/actions'
 import memoryUtils from '../../utils/memoryUtils'
 import storageUtils from '../../utils/storageUtils'
 import { reqLogin } from '../../api'
@@ -27,29 +29,8 @@ class Login extends Component {
     // 对表单所有字段进行统一验证
     this.props.form.validateFields(async (err, {username, password}) => {
       if (!err) {
-        // try {} catch (error) {}
-        // alert(`发登陆的ajax请求, username=${username}, password=${password}`)
-        const result = await reqLogin(username, password)
-        // 登陆成功
-        if (result.status===0) {
-          // 将user信息保存到local
-          const user = result.data
-          // localStorage.setItem('user_key', JSON.stringify(user))
-          storageUtils.saveUser(user)
-          // 保存到内存中
-          memoryUtils.user = user
-
-          // 跳转到管理界面
-          this.props.history.replace('/')
-          message.success('登陆成功!')
-        } else { // 登陆失败
-          message.error(result.msg)
-        }
-        
-
-      } else {
-        // alert('验证失败!')
-      }
+        this.props.login(username, password)
+      } 
     })
   }
 
@@ -79,10 +60,12 @@ class Login extends Component {
 
     // 读取保存的user, 如果存在, 直接跳转到管理界面
     // const user = JSON.parse(localStorage.getItem('user_key') || '{}')
-    const user = memoryUtils.user
+    const user = this.props.user
     if (user._id) {
-      return <Redirect to="/" /> // 自动跳转到指定的路由路径
+      return <Redirect to="/home" /> // 自动跳转到指定的路由路径
     }
+
+    const errorMsg = user.errorMsg
 
     const { getFieldDecorator } = this.props.form
 
@@ -93,8 +76,8 @@ class Login extends Component {
           <h1>后台管理系统</h1>
         </div>
         <div className="login-content">
+          {errorMsg ? <div style={{color: 'red'}}>{errorMsg}</div> : null}
           <h1>用户登陆</h1>
-
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Item>
               {
@@ -164,7 +147,12 @@ class Login extends Component {
 
 const WrapperForm = Form.create()(Login)
 
-export default WrapperForm   // <Form(Login)/>
+export default connect(
+  state => ({
+    user: state.user
+  }),
+  {login}
+)(WrapperForm)   // <Form(Login)/>
 
 
 /*

@@ -4,15 +4,21 @@
 import {combineReducers} from 'redux'
 import storageUtils from '../utils/storageUtils'
 
+import {
+  SET_HEADER_TITLE,
+  RECEIVE_USER,
+  SHOW_ERROR,
+  LOGOUT
+} from "./action-types"
+
 /* 
 管理应用头部标题的reducer函数
 */
 const initHeaderTitle = '首页'
 function headerTitle(state = initHeaderTitle, action) {
   switch (action.type) {
-    /* case value:
-      
-      break; */
+    case SET_HEADER_TITLE:
+      return action.data
     default:
       return state
   }
@@ -25,9 +31,15 @@ const initUser = storageUtils.getUser() // 读取local中保存user作为初始�
 
 function user(state = initUser, action) {
   switch (action.type) {
-    /* case value:
-      
-      break; */
+    case RECEIVE_USER:
+      return action.user
+    case LOGOUT:
+      return {}
+    case SHOW_ERROR:
+      // 不能直接修改状态数据内部的数据
+      /* state.errorMsg = action.errorMsg
+      return state */
+      return {...state, errorMsg: action.errorMsg}  // 返回一个新的需要的数据
     default:
       return state
   }

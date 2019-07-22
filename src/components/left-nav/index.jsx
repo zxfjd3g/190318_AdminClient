@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { Menu, Icon } from 'antd'
+import {connect} from 'react-redux'
 
+import {setHeaderTitle} from '../../redux/actions'
 import menuList from '../../config/menuConfig'
 import logo from '../../assets/images/logo.png'
 import './index.less'
-import memoryUtils from '../../utils/memoryUtils';
 
 const { SubMenu } = Menu
 
@@ -14,13 +15,12 @@ const { SubMenu } = Menu
 */
 class LeftNav extends Component {
 
-
   /* 
   判断当前用户是否有此item对应的权限
   */
   hasAuth  = (item) => {
     // 得到当前用户的所有权限
-    const user = memoryUtils.user
+    const user = this.props.user
     const menus = user.role.menus
     // 1. 如果当前用户是admin
     // 2. 如果item是公开的
@@ -51,9 +51,15 @@ class LeftNav extends Component {
       if (this.hasAuth(item)) {
         // 添加<Menu.Item></Menu.Item>
         if (!item.children) {
+
+          // 找到path对应的item, 更新headerTitle状态, 值是item的title
+          if (item.key===path || path.indexOf(item.key)===0) {
+            this.props.setHeaderTitle(item.title)
+          }
+
           pre.push((
             <Menu.Item key={item.key}>
-              <Link to={item.key}>
+              <Link to={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
                 <Icon type={item.icon} />
                 <span>{item.title}</span>
               </Link>
@@ -178,4 +184,9 @@ class LeftNav extends Component {
   }
 }
 
-export default withRouter(LeftNav)
+export default connect(
+  state => ({
+    user: state.user
+  }),
+  {setHeaderTitle}
+)(withRouter(LeftNav))

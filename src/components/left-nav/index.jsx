@@ -28,7 +28,7 @@ class LeftNav extends Component {
     if (user.username === 'admin' || item.public || menus.indexOf(item.key)!=-1) {
       return true
     } else if (item.children) {
-      // 如果当前用户有item的某个子节点的权限, 当前item也应该显示
+      // 4. 如果当前用户有item的某个子节点的权限, 当前item也应该显示
       const cItem = item.children.find(cItem => menus.indexOf(cItem.key)!=-1)
       return !!cItem 
     }

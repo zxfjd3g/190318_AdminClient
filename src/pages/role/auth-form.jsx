@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import {
   Form,
@@ -14,7 +14,7 @@ const Item = Form.Item
 /*
 添加分类的form组件
  */
-export default class AuthForm extends Component {
+export default class AuthForm extends PureComponent {
 
   static propTypes = {
     role: PropTypes.object
@@ -52,7 +52,6 @@ export default class AuthForm extends Component {
   }
 
   componentWillMount() {
-    console.log('componentWillMount()')
     this.treeNodes = this.getTreeNodes(menuList)
     // 根据传入角色的menus来更新checkedKeys状态
     const menus = this.props.role.menus
@@ -66,7 +65,6 @@ export default class AuthForm extends Component {
   nextProps: 接收到的包含新的属性的对象
   */
   componentWillReceiveProps (nextProps) {
-    console.log('componentWillReceiveProps()', nextProps)
     const menus = nextProps.role.menus
     this.setState({
       checkedKeys: menus
@@ -74,6 +72,7 @@ export default class AuthForm extends Component {
   }
 
   render() {
+    console.log('auth-form render()')
     const { role } = this.props
     const { checkedKeys } = this.state
     

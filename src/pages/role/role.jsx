@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import {
   Card,
   Button,
@@ -18,7 +18,7 @@ import { reqAddRole, reqUpdateRole, reqRoles } from '../../api'
 /*
 角色路由
  */
-export default class Role extends Component {
+export default class Role extends PureComponent {
 
   state = {
     roles: [], // 所有角色的列表
@@ -102,7 +102,11 @@ export default class Role extends Component {
         const result = await reqAddRole(values.roleName)
         if (result.status===0) {
           message.success('添加角色成功')
-          this.getRoles()
+          const role = result.data
+          this.setState(state => ({
+            roles: [...state.roles, role]
+          }))
+          // this.getRoles()
         } else {
           message.error(result.msg)
         }
@@ -143,6 +147,7 @@ export default class Role extends Component {
   }
 
   render() {
+    console.log('role render()')
     const { roles, isShowAdd, isShowAuth } = this.state
     const role = this.role || {}
 

@@ -101,11 +101,11 @@
     */
     update6 = () => {
       console.log('setState()之前', this.state.count)
-      this.setState({count: this.state.count + 1})
+      this.setState({count: this.state.count + 1})  // count: 2
       console.log('setState()之后', this.state.count)
 
       console.log('setState()2之前', this.state.count)
-      this.setState({count: this.state.count + 1})
+      this.setState({count: this.state.count + 1}) // count: 2
       console.log('setState()2之后', this.state.count)
     }
 
